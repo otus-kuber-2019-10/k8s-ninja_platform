@@ -1,0 +1,11 @@
+commonLabels:
+  prometheus: default
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+  serviceMonitorSelector:
+  ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
+  # serviceMonitorSelector:
+    matchLabels:
+      prometheus: default
