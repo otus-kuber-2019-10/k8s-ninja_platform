@@ -1,0 +1,10 @@
+elasticsearchHosts: http://elasticsearch-master-headless:9200
+
+ingress:
+  enabled: true
+  annotations: {
+    kubernetes.io/ingress.class: nginx
+  }
+  path: /
+  hosts:
+  - kibana.104.198.210.161.xip.io
