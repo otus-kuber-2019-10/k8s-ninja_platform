@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-ssl
+  labels:
+    app: nginx-ssl
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-ssl
+  ports:
+  - name: https
+    protocol: TCP
+    port: 8443
+    targetPort: 443
