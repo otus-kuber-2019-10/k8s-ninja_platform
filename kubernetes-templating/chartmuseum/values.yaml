@@ -1,0 +1,22 @@
+env:
+  open:
+    DISABLE_API: false
+    STORAGE: google
+    STORAGE_GOOGLE_BUCKET: mk-infra-chartmuseum
+gcp:
+  secret:
+    enabled: true
+    name: chartmuseum-secret
+    key: credentials.json
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - name: chartmuseum.35.202.19.145.nip.io
+      path: /
+      tls: true
+      tlsSecret: chartmuseum-tls

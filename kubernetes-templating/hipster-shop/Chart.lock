@@ -1,0 +1,9 @@
+dependencies:
+- name: frontend
+  repository: file://../frontend
+  version: 0.1.0
+- name: redis
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 10.3.5
+digest: sha256:e98533cb4efc315acf6498c1c3a7a1fb7937178dcefdb85319f751043782d542
+generated: "2020-01-26T15:43:20.03136+03:00"

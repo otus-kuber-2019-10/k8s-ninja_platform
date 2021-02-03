@@ -1,0 +1,66 @@
+helmDefaults:
+  verify: false
+  wait: true
+  timeout: 600
+  recreatePods: false
+  force: false
+  atomic: false
+  tls: false
+
+environments:
+  infra:
+    values:
+      - "values/{{ .Environment.Name }}/charts-versions.yaml"
+      - kubeContext: gke_infra-265919_us-central1_infra
+        domain: 35.202.19.145
+
+repositories:
+  - name: stable
+    url: https://kubernetes-charts.storage.googleapis.com
+  - name: jetstack
+    url: https://charts.jetstack.io
+  - name: harbor
+    url: https://helm.goharbor.io
+
+releases:
+  - name: nginx-ingress
+    chart: "stable/nginx-ingress"
+    namespace: nginx-ingress
+    version: {{ index .Environment.Values.version "nginx-ingress" }}
+    missingFileHandler: Warn
+    values:
+      - "./values/{{ .Environment.Name }}/nginx-ingress.yaml"
+
+  - name: cert-manager
+    chart: jetstack/cert-manager
+    namespace: cert-manager
+    version: {{ index .Environment.Values.version "cert-manager" }}
+    missingFileHandler: Warn
+    values:
+      - "./values/{{ .Environment.Name }}/cert-manager.yaml"
+    hooks:
+      - events: ["presync"]
+        showlogs: true
+        command: "kubectl"
+        args: ["apply", "-f", "https://raw.githubusercontent.com/jetstack/cert-manager/release-0.9/deploy/manifests/01-namespace.yaml"]
+      - events: ["presync"]
+        showlogs: true
+        command: "kubectl"
+        args: [ "apply", "-f", "https://raw.githubusercontent.com/jetstack/cert-manager/release-0.9/deploy/manifests/00-crds.yaml"]
+      - events: ["presync"]
+        showlogs: true
+        command: "kubectl"
+        args: ["apply", "-f", "./values/{{`{{ .Environment.Name }}`}}/issuer-prod.yaml", "./values/{{`{{ .Environment.Name }}`}}/issuer-staging.yaml", "--validate"]
+
+
+  - name: harbor
+    chart: harbor/harbor
+    namespace: harbor
+    version: {{ index .Environment.Values.version "harbor" }}
+    missingFileHandler: Warn
+    values:
+      - "./values/{{ .Environment.Name }}/harbor.yaml"
+    set:
+      - name: hosts.core
+        value: harbor.{{ .Environment.Values.domain }}
+

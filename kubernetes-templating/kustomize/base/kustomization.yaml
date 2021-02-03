@@ -1,0 +1,6 @@
+# Example configuration for the webserver
+# at https://github.com/monopole/hello
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
