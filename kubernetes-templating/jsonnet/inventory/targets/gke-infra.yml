@@ -1,0 +1,9 @@
+classes:
+  - clusters.gke-infra
+  - components.recommendationservice
+  - components.scripts
+  - components.kapitan
+
+parameters:
+  target: gke-infra
+  namespace: hipster-shop

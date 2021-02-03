@@ -1,0 +1,5 @@
+parameters:
+  cluster:
+    name: gke-infra
+    cluster: minikube
+    user: minikube

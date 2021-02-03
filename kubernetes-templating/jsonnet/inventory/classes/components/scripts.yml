@@ -1,0 +1,5 @@
+parameters:
+  kapitan:
+    scripts:
+      - components/scripts/kubectx.sh
+      - components/scripts/apply.sh

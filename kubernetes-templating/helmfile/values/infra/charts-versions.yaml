@@ -1,0 +1,4 @@
+version:
+  nginx-ingress: 1.11.1
+  cert-manager: 0.9.0
+  harbor: 1.1.2
